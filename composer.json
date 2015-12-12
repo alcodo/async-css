@@ -1,0 +1,32 @@
+{
+  "name": "alcodo/laravel-css-async",
+  "description": "Creates a critical css with css handling",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "critical",
+    "async",
+    "css",
+    "laravel"
+  ],
+  "homepage": "https://github.com/alcodo/laravel-css-async",
+  "authors": [
+    {
+      "name": "Alexej Kloos",
+      "email": "alexejkloos@gmail.com",
+      "homepage": "http://alcodo.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "laravel/framework": "~5.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Alcodo\\CssAsync\\": ""
+    }
+  }
+}
