@@ -10,7 +10,6 @@ if (!function_exists('cssasync')) {
      */
     function cssasync($cssfiles)
     {
-        var_dump(34);
-        return app('cssasync')->getHtmlCss($cssfiles);
+        return app('CssAsync')->getHtmlCss($cssfiles);
     }
 }
