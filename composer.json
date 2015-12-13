@@ -27,7 +27,10 @@
   "autoload": {
     "psr-4": {
       "Alcodo\\CssAsync\\": ""
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
   },
   "minimum-stability": "dev"
 }
