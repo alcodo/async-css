@@ -1,4 +1,4 @@
-<?php namespace Alcodo\CssAsync;
+<?php namespace Alcodo\CssAsync\Html;
 
 class Facade extends \Illuminate\Support\Facades\Facade
 {

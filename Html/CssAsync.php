@@ -1,9 +1,14 @@
-<?php namespace Alcodo\CssAsync;
+<?php namespace Alcodo\CssAsync\Html;
 
+use Alcodo\CssAsync\Jobs\BuildAsyncCSS;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class CssAsync
 {
+
+    use DispatchesJobs;
 
     public function __construct()
     {
@@ -11,18 +16,23 @@ class CssAsync
 
     public function getHtmlCss($cssfiles)
     {
+        $head = Request::header();
+        if (isset($head['abovefold'])) {
+            return null;
+        }
+
         $files = is_array($cssfiles) ? $cssfiles : func_get_args();
+        $cacheKey = 'css_' . Request::path();
 
-//        $cacheKey = 'css_' . Request::path();
-        $cacheKey = 'css_foo';
-
-//        if (Cache::has($cacheKey)) {
-        if (true) {
-//            $cssoutput = Cache::get($cacheKey);
-            $cssoutput = 'body{background:red;}';
+        if (Cache::has($cacheKey)) {
+            $cssoutput = Cache::get($cacheKey);
             return $this->getAsyncStylesheet($cssoutput, $files);
         } else {
-            $this->createAsyncCss();
+
+            // create async css in queues
+            $urlPath = '/' . Request::path();
+            $this->dispatch(new BuildAsyncCSS($cacheKey, $urlPath, $files[0]));
+
             return $this->getStylesheetLink($files);
         }
     }
@@ -34,10 +44,6 @@ class CssAsync
             $output .= "<link rel=\"stylesheet\" href=\"$file\">";
         }
         return $output;
-    }
-
-    private function createAsyncCss()
-    {
     }
 
     private function getAsyncStylesheet($cssoutput, $cssfiles)

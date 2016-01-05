@@ -1,5 +1,6 @@
 <?php namespace Alcodo\CssAsync;
 
+use Alcodo\CssAsync\Html\CssAsync;
 use Illuminate\Support\ServiceProvider as Provider;
 
 class ServiceProvider extends Provider
@@ -10,8 +11,7 @@ class ServiceProvider extends Provider
      */
     public function register()
     {
-
-        $this->app->singleton('CssAsync', function ($app) {
+        $this->app->singleton('CssAsync', function () {
             return new CssAsync();
         });
     }
