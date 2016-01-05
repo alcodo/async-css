@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('cssasync')) {
+if (!function_exists('asyncsss')) {
     /**
      * Generate a international date string
      *
@@ -8,8 +8,8 @@ if (!function_exists('cssasync')) {
      * @param $dateObject
      * @return string
      */
-    function cssasync($cssfiles)
+    function asyncsss($cssfiles)
     {
-        return app('CssAsync')->getHtmlCss($cssfiles);
+        return app('AsyncCss')->getHtmlCss($cssfiles);
     }
 }

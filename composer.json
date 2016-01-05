@@ -1,6 +1,6 @@
 {
-  "name": "alcodo/laravel-css-async",
-  "description": "Creates a critical css with css handling",
+  "name": "alcodo/async-css",
+  "description": "Laravel Package to create a dynamic critical css",
   "type": "library",
   "license": "MIT",
   "keywords": [
@@ -9,7 +9,7 @@
     "css",
     "laravel"
   ],
-  "homepage": "https://github.com/alcodo/laravel-css-async",
+  "homepage": "https://github.com/alcodo/async-css",
   "authors": [
     {
       "name": "Alexej Kloos",
@@ -26,7 +26,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Alcodo\\CssAsync\\": ""
+      "Alcodo\\AsyncCss\\": ""
     },
     "files": [
       "helpers.php"

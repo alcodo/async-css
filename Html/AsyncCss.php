@@ -1,11 +1,11 @@
-<?php namespace Alcodo\CssAsync\Html;
+<?php namespace Alcodo\AsyncCss\Html;
 
-use Alcodo\CssAsync\Jobs\BuildAsyncCSS;
+use Alcodo\AsyncCss\Jobs\BuildAsyncCSS;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-class CssAsync
+class AsyncCss
 {
 
     use DispatchesJobs;

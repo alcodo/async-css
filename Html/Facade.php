@@ -1,4 +1,4 @@
-<?php namespace Alcodo\CssAsync\Html;
+<?php namespace Alcodo\AsyncCss\Html;
 
 class Facade extends \Illuminate\Support\Facades\Facade
 {
@@ -9,6 +9,6 @@ class Facade extends \Illuminate\Support\Facades\Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'cssaysnc';
+        return 'asynccss';
     }
 }

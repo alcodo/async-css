@@ -1,6 +1,4 @@
-<?php
-
-namespace Alcodo\CssAsync\Jobs;
+<?php namespace Alcodo\AsyncCss\Jobs;
 
 use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
