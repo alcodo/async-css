@@ -24,17 +24,17 @@ class AsyncCss
         $files = is_array($cssfiles) ? $cssfiles : func_get_args();
         $cacheKey = 'css_' . Request::path();
 
-        if (Cache::has($cacheKey)) {
-            $cssoutput = Cache::get($cacheKey);
-            return $this->getAsyncStylesheet($cssoutput, $files);
-        } else {
+//        if (Cache::has($cacheKey)) {
+//            $cssoutput = Cache::get($cacheKey);
+//            return $this->getAsyncStylesheet($cssoutput, $files);
+//        } else {
 
             // create async css in queues
-            $urlPath = '/' . Request::path();
-            $this->dispatch(new BuildAsyncCSS($cacheKey, $urlPath, $files[0]));
+//            $urlPath = '/' . Request::path();
+//            $this->dispatch(new BuildAsyncCSS($cacheKey, $urlPath, $files[0]));
 
             return $this->getStylesheetLink($files);
-        }
+//        }
     }
 
     protected function getStylesheetLink($cssfiles)

@@ -7,8 +7,9 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 
-class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
+class BuildAsyncCSSManual extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
@@ -16,18 +17,18 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
     protected $urlPath;
     protected $cssfile;
     protected $servicePath;
-    protected $html;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($html, $urlPath)
+    public function __construct($cacheKey, $urlPath, $cssfile)
     {
-        $this->cacheKey = 'AsyncCss:' . $urlPath;
+        $this->cacheKey = $cacheKey;
+        $this->urlPath = $urlPath;
+        $this->cssfile = $cssfile;
         $this->servicePath = base_path('node_modules/critical/cli.js');
-        $this->html = $html;
     }
 
     /**
@@ -37,9 +38,7 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        $this->setCssfile();
-
-        $tmpHtmlFile = $this->setHtml();
+        $tmpHtmlFile = $this->getHtml();
         if (empty($tmpHtmlFile)) {
             Log::warning('CssAync: No html file is loaded');
         }
@@ -54,11 +53,26 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
         unlink($tmpHtmlFile);
     }
 
-    private function setHtml()
+    private function getHtml()
     {
+        $opts = array(
+            'http' => array(
+                'method' => "GET",
+                'header' => "abovefold: true"
+            )
+        );
+
+        $context = stream_context_create($opts);
+        Log::debug('CssAync url: ' . $this->urlPath);
+
+        try {
+            $output = file_get_contents(Request::root() . $this->urlPath, false, $context);
+        } catch (\Exception $e) {
+            Log::error('CssAync get content: ' . $e->getMessage());
+        }
 
         $temp_file = sys_get_temp_dir() . '/php_css-async_' . time() . '.html';
-        file_put_contents($temp_file, $this->html);
+        file_put_contents($temp_file, $output);
 
         return $temp_file;
     }
@@ -73,15 +87,6 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
         Log::debug('CssAync Exec: ' . $cmd);
 
         return shell_exec($cmd);
-    }
-
-    private function setCssfile()
-    {
-        preg_match_all("'<link rel=\"stylesheet\" href=\"(.*?)\">'si", $this->html, $files);
-        if(isset($files[1]) && !empty($files[1])){
-            $allCssFiles = $files[1];
-            $this->cssfile = $allCssFiles[0];
-        }
     }
 
 }

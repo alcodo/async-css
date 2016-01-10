@@ -1,6 +1,6 @@
 <?php namespace Alcodo\AsyncCss\Tests;
 
-use Alcodo\CssAsync\Jobs\BuildAsyncCSS;
+use Alcodo\AsyncCss\Jobs\BuildAsyncCSS;
 use Illuminate\Support\Facades\Cache;
 use TestCase;
 
