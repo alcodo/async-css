@@ -1,5 +1,6 @@
 <?php namespace Alcodo\AsyncCss\Commands;
 
+use Alcodo\AsyncCss\Cache\CssKeys;
 use Illuminate\Console\Command;
 
 class Clear extends Command
@@ -35,6 +36,12 @@ class Clear extends Command
      */
     public function handle()
     {
-        //
+        $result = CssKeys::removeAll();
+        if ($result) {
+            $this->info('Cache is now empty');
+        } else {
+            $this->error('Cache is not cleared!');
+        }
+
     }
 }

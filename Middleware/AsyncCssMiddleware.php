@@ -1,8 +1,11 @@
 <?php namespace Alcodo\AsyncCss\Middleware;
 
+use Alcodo\AsyncCss\Cache\CssKeys;
+use Alcodo\AsyncCss\Html\AsyncCss;
 use Alcodo\AsyncCss\Jobs\BuildAsyncCSS;
 use Closure;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Cache;
 
 class AsyncCssMiddleware
 {
@@ -24,10 +27,19 @@ class AsyncCssMiddleware
         $response = $next($request);
 
         if ($this->isHtmlResponse($response)) {
-            // start a asynccss job in queues mode
-            $html = $response->getContent();
             $urlPath = $request->getRequestUri();
-            $this->dispatch(new BuildAsyncCSS($html, $urlPath));
+
+//            var_dump('arsch'.$urlPath);
+
+            $cacheKey = CssKeys::getSingleKey($urlPath);
+////            var_dump($cacheKey);
+////            dd(Cache::has($cacheKey));
+            if (Cache::has($cacheKey) === false) {
+                // start a asynccss job in queues mode
+                $html = $response->getContent();
+                $this->dispatch(new BuildAsyncCSS($html, $urlPath));
+            }
+
         }
 
         return $response;

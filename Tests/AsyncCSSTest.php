@@ -1,5 +1,6 @@
 <?php namespace Alcodo\AsyncCss\Tests;
 
+use Alcodo\AsyncCss\Cache\CssKeys;
 use Alcodo\AsyncCss\Jobs\BuildAsyncCSS;
 use Illuminate\Support\Facades\Cache;
 use TestCase;
@@ -8,15 +9,15 @@ class AsyncCSSTest extends TestCase
 {
     public function testGenerateAsyncCSS()
     {
+        $html = file_get_contents(__DIR__ . '/resources/index.html');
+        $urlPath = '/example';
 
-        $urlPath = '/';
-        $cacheKey = 'css_' . $urlPath;
-        $cssfile = '/public/style.css';
-
-        $job = new BuildAsyncCSS($cacheKey, $urlPath, $cssfile);
+        // create
+        $job = new BuildAsyncCSS($html, $urlPath);
         $job->handle();
 
-        $cssOutput = Cache::get($cacheKey);
+        // check
+        $cssOutput = Cache::get(CssKeys::getSingleKey($urlPath));
         $this->assertFalse(empty($cssOutput), 'Css output is empty');
 
         $start = '@charset "UTF-8"';

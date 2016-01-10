@@ -1,5 +1,6 @@
 <?php namespace Alcodo\AsyncCss\Commands;
 
+use Alcodo\AsyncCss\Cache\CssKeys;
 use Illuminate\Console\Command;
 
 class Rebuild extends Command
@@ -35,6 +36,22 @@ class Rebuild extends Command
      */
     public function handle()
     {
-        //
+        $keys = CssKeys::show();
+
+        if ($keys === null) {
+            $this->warn('Cache is empty');
+            return true;
+        }
+
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
+                $path = CssKeys::getSinglePath($key);
+
+                // TODO call the path
+
+                $this->info('Path: ' . $path);
+            }
+        }
+
     }
 }

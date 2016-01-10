@@ -1,5 +1,6 @@
 <?php namespace Alcodo\AsyncCss\Jobs;
 
+use Alcodo\AsyncCss\Cache\CssKeys;
 use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,7 +26,7 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
      */
     public function __construct($html, $urlPath)
     {
-        $this->cacheKey = 'AsyncCss:' . $urlPath;
+        $this->cacheKey = CssKeys::getSingleKey($urlPath);
         $this->servicePath = base_path('node_modules/critical/cli.js');
         $this->html = $html;
     }
@@ -37,27 +38,31 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
-        $this->setCssfile();
+        $result = $this->setCssfile();
+        if ($result === false) {
+            return false;
+        }
 
         $tmpHtmlFile = $this->setHtml();
         if (empty($tmpHtmlFile)) {
-            Log::warning('CssAync: No html file is loaded');
+            Log::warning('AsyncCss: No html file is loaded');
         }
 
         $cssOutput = $this->getCssOutput($tmpHtmlFile);
         if (empty($cssOutput)) {
-            Log::warning('CssAync: Css output is empty');
+            Log::warning('AsyncCss: Css output is empty');
         } else {
             Cache::forever($this->cacheKey, $cssOutput);
+            CssKeys::add($this->cacheKey);
         }
 
-        unlink($tmpHtmlFile);
+//        unlink($tmpHtmlFile);
     }
 
     private function setHtml()
     {
 
-        $temp_file = sys_get_temp_dir() . '/php_css-async_' . time() . '.html';
+        $temp_file = sys_get_temp_dir() . '/php_async-css_' . time() . '.html';
         file_put_contents($temp_file, $this->html);
 
         return $temp_file;
@@ -65,12 +70,12 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
 
     private function getCssOutput($tmpHtmlFile)
     {
-        if ($this->urlPath[0] === '/') {
+        if ($this->cssfile[0] === '/') {
             $this->cssfile = substr($this->cssfile, 1);
         }
 
         $cmd = $this->servicePath . ' ' . $tmpHtmlFile . ' -mc ' . $this->cssfile;
-        Log::debug('CssAync Exec: ' . $cmd);
+        Log::debug('AsyncCss Exec: ' . $cmd);
 
         return shell_exec($cmd);
     }
@@ -78,9 +83,17 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
     private function setCssfile()
     {
         preg_match_all("'<link rel=\"stylesheet\" href=\"(.*?)\">'si", $this->html, $files);
-        if(isset($files[1]) && !empty($files[1])){
+        if (isset($files[1]) && !empty($files[1])) {
             $allCssFiles = $files[1];
+
+            if (empty($allCssFiles[0])) {
+                Log::error('AsyncCss: Css file can not be parsed - Cachekey:' . $this->cacheKey);
+                return false;
+            }
+
             $this->cssfile = $allCssFiles[0];
+            return true;
+
         }
     }
 
