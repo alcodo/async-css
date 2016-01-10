@@ -16,3 +16,6 @@ Creates a critical css with css handling
 ## app.php
     Alcodo\AsyncCss\ServiceProvider::class,
     'AsyncCss' => Alcodo\AsyncCss\Html\Facade::class,
+
+## app.balde.php
+    {!! asyncsss(elixir('style.css')) !!}
