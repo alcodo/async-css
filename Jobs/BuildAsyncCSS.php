@@ -56,7 +56,7 @@ class BuildAsyncCSS extends Job implements SelfHandling, ShouldQueue
             CssKeys::add($this->cacheKey);
         }
 
-//        unlink($tmpHtmlFile);
+        unlink($tmpHtmlFile);
     }
 
     private function setHtml()
