@@ -7,7 +7,7 @@
 Laravel package to create a dynamic critical css
 
 Easy workflow:
-![](http://i.imgur.com/67Y5fPM.png)
+![](https://raw.githubusercontent.com/alcodo/async-css/master/docs/async-css.png)
 
 # Installation
 
