@@ -1,21 +1,49 @@
-# laravel-css-async
-Creates a critical css with css handling
+# Async Css
 
-## Middleware
-    protected $middleware = [
-        \Alcodo\AsyncCss\Middleware\AsyncCssMiddleware::class,
-    ];
+[![License](https://poser.pugx.org/alcodo/async-css/license)](https://packagist.org/packages/approached/async-css)
+[![Latest Stable Version](https://poser.pugx.org/alcodo/async-css/v/stable)](https://packagist.org/packages/approached/async-css)
+[![Total Downloads](https://poser.pugx.org/alcodo/async-css/downloads)](https://packagist.org/packages/approached/async-css)
 
-## Commands
-    protected $commands = [
-        \Alcodo\AsyncCss\Commands\Clear::class,
-        \Alcodo\AsyncCss\Commands\Show::class,
-        \Alcodo\AsyncCss\Commands\Rebuild::class,
-    ];
+Laravel package to create a dynamic critical css
 
-## app.php
-    Alcodo\AsyncCss\ServiceProvider::class,
-    'AsyncCss' => Alcodo\AsyncCss\Html\Facade::class,
+Easy workflow:
+![](http://i.imgur.com/67Y5fPM.png)
 
-## app.balde.php
-    {!! asyncsss(elixir('style.css')) !!}
+# Installation
+
+Require this package with composer:
+```
+composer require alcodo/async-css
+```
+
+Add ServiceProvider in config/app.php
+```
+Alcodo\AsyncCss\ServiceProvider::class,
+    and
+'AsyncCss' => Alcodo\AsyncCss\Html\Facade::class,
+```
+
+Add Middleware
+```
+protected $middleware = [
+    \Alcodo\AsyncCss\Middleware\AsyncCssMiddleware::class,
+];
+```
+
+Add Commands
+```
+protected $commands = [
+    \Alcodo\AsyncCss\Commands\Clear::class,
+    \Alcodo\AsyncCss\Commands\Show::class,
+    \Alcodo\AsyncCss\Commands\Rebuild::class,
+];
+```
+
+
+Add app.balde.php
+```
+{!! asyncsss(elixir('style.css')) !!}
+```
+
+## License
+MIT
