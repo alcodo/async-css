@@ -48,10 +48,27 @@ class Rebuild extends Command
                 $path = CssKeys::getSinglePath($key);
 
                 // TODO call the path
+                // $this->call($path);
 
                 $this->info('Path: ' . $path);
             }
         }
 
+    }
+    
+    /**
+     * Call the given URI and return a Response.
+     *
+     * @param  string $uri
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function call($uri)
+    {
+        $request = Request::create($uri, 'GET');
+        $kernel = $this->app->make(HttpKernel::class);
+        $response = $kernel->handle($request);
+        $kernel->terminate($request, $response);
+        return $response;
     }
 }
