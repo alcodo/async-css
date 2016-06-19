@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss\Middleware;
+<?php
+
+namespace Alcodo\AsyncCss\Middleware;
 
 use Alcodo\AsyncCss\Cache\CssKeys;
 use Alcodo\AsyncCss\Html\AsyncCss;
@@ -39,7 +41,6 @@ class AsyncCssMiddleware
                 $html = $response->getContent();
                 $this->dispatch(new BuildAsyncCSS($html, $urlPath));
             }
-
         }
 
         return $response;
@@ -55,6 +56,5 @@ class AsyncCssMiddleware
         }
 
         return true;
-
     }
 }

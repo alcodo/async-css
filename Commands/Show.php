@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss\Commands;
+<?php
+
+namespace Alcodo\AsyncCss\Commands;
 
 use Alcodo\AsyncCss\Cache\CssKeys;
 use Illuminate\Console\Command;
@@ -40,17 +42,17 @@ class Show extends Command
 
         if ($keys === null) {
             $this->info('Cache is empty');
+
             return true;
         }
 
         if (is_array($keys)) {
             foreach ($keys as $key) {
                 $path = CssKeys::getSinglePath($key);
-                $this->info('Path: ' . $path);
+                $this->info('Path: '.$path);
             }
         }
 
         return true;
-
     }
 }

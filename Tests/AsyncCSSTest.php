@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss\Tests;
+<?php
+
+namespace Alcodo\AsyncCss\Tests;
 
 use Alcodo\AsyncCss\Cache\CssKeys;
 use Alcodo\AsyncCss\Jobs\BuildAsyncCSS;
@@ -9,7 +11,7 @@ class AsyncCSSTest extends TestCase
 {
     public function testGenerateAsyncCSS()
     {
-        $html = file_get_contents(__DIR__ . '/resources/index.html');
+        $html = file_get_contents(__DIR__.'/resources/index.html');
         $urlPath = '/example';
 
         // create

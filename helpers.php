@@ -1,8 +1,8 @@
 <?php
 
-if (!function_exists('asyncsss')) {
+if (! function_exists('asyncsss')) {
     /**
-     * Generate a international date string
+     * Generate a international date string.
      *
      * @param $type
      * @param $dateObject
