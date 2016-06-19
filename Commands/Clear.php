@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss\Commands;
+<?php
+
+namespace Alcodo\AsyncCss\Commands;
 
 use Alcodo\AsyncCss\Cache\CssKeys;
 use Illuminate\Console\Command;
@@ -42,6 +44,5 @@ class Clear extends Command
         } else {
             $this->error('Cache is not cleared!');
         }
-
     }
 }

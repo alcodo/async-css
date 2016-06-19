@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss\Cache;
+<?php
+
+namespace Alcodo\AsyncCss\Cache;
 
 use Illuminate\Support\Facades\Cache;
 
@@ -7,10 +9,9 @@ class CssKeys
     const CacheKey = 'AsyncCss:';
     const MasterAllKey = 'All:AsyncCss';
 
-
     public static function getSingleKey($path)
     {
-        return self::CacheKey . $path;
+        return self::CacheKey.$path;
     }
 
     public static function getSinglePath($key)
@@ -29,10 +30,9 @@ class CssKeys
 
         if (is_null($allKeys)) {
             // create first time
-            Cache::forever(self::MasterAllKey, array($key));
+            Cache::forever(self::MasterAllKey, [$key]);
         } else {
-
-            if (!in_array($key, $allKeys)) {
+            if (! in_array($key, $allKeys)) {
                 // add
                 $allKeys[] = $key;
             }
@@ -49,7 +49,6 @@ class CssKeys
         if (is_null($allKeys)) {
             return false;
         } else {
-
             if (($key = array_search($key, $allKeys)) !== false) {
                 // remove
                 unset($allKeys[$key]);
@@ -62,12 +61,10 @@ class CssKeys
             // save
             return Cache::forever(self::MasterAllKey, $allKeys);
         }
-
     }
 
     public static function removeAll()
     {
         return Cache::forget(self::MasterAllKey);
     }
-
 }

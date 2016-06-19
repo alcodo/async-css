@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss;
+<?php
+
+namespace Alcodo\AsyncCss;
 
 use Alcodo\AsyncCss\Html\AsyncCss;
 use Illuminate\Support\ServiceProvider as Provider;

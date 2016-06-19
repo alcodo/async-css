@@ -1,4 +1,6 @@
-<?php namespace Alcodo\AsyncCss\Commands;
+<?php
+
+namespace Alcodo\AsyncCss\Commands;
 
 use Alcodo\AsyncCss\Cache\CssKeys;
 use Illuminate\Console\Command;
@@ -40,6 +42,7 @@ class Rebuild extends Command
 
         if ($keys === null) {
             $this->warn('Cache is empty');
+
             return true;
         }
 
@@ -50,12 +53,11 @@ class Rebuild extends Command
                 // TODO call the path
                 // $this->call($path);
 
-                $this->info('Path: ' . $path);
+                $this->info('Path: '.$path);
             }
         }
-
     }
-    
+
     /**
      * Call the given URI and return a Response.
      *
@@ -69,6 +71,7 @@ class Rebuild extends Command
         $kernel = $this->app->make(HttpKernel::class);
         $response = $kernel->handle($request);
         $kernel->terminate($request, $response);
+
         return $response;
     }
 }
